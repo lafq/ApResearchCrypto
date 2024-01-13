@@ -5,7 +5,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import warnings
 
-# plt.style.use('seaborn-dark grid')
 warnings.filterwarnings("ignore")
 
 df = pd.read_csv('Data/BTC-USD_daily.csv')
@@ -21,6 +20,7 @@ df = df.drop(['Adj Close'], axis='columns')
 df['High-Low'] = df.High - df.Low
 df['Open-Close'] = df.Open - df.Close
 
+period = 14
 # RSI
 change = df['Close'].diff()
 change.dropna(inplace=True)
@@ -38,23 +38,64 @@ avg_down = change_down.rolling(14).mean()
 
 rsi = 100 * avg_up / (avg_up + avg_down)
 
+rsi = rsi[period:]
+
 # EMA
+ema = df['Close'].ewm(com=0.8).mean()
+ema = ema[period:]
 
 # MFI
+typical_price = (df['Close'] + df['High'] + df['Low']) / 3
+
+money_flow = typical_price * df['Volume']
+
+positive_flow = []
+negative_flow = []
+
+# Loop through the typical price
+for i in range(1, len(typical_price)):
+    if typical_price[i] > typical_price[i - 1]:
+        positive_flow.append(money_flow[i - 1])
+        negative_flow.append(0)
+
+    elif typical_price[i] < typical_price[i - 1]:
+        negative_flow.append(money_flow[i - 1])
+        positive_flow.append(0)
+
+    else:
+        positive_flow.append(0)
+        negative_flow.append(0)
+
+positive_mf = []
+negative_mf = []
+
+for i in range(period - 1, len(positive_flow)):
+    positive_mf.append(sum(positive_flow[i + 1 - period: i + 1]))
+
+for i in range(period - 1, len(negative_flow)):
+    negative_mf.append(sum(negative_flow[i + 1 - period: i + 1]))
+
+MFI = 100 * (np.array(positive_mf) / (np.array(positive_mf) + np.array(negative_mf)))
+mfi = pd.DataFrame()
+mfi['MFI'] = MFI
+
+new_df = df[period:]
+new_df['RSI'] = rsi
+new_df['EMA'] = ema
+new_df['MFI'] = MFI
 
 split_percentage = 0.8
 split = int(split_percentage * len(df))
 
-plt.style.use('fivethirtyeight')
-plt.rcParams['figure.figsize'] = (20, 20)
 
-ax1 = plt.subplot2grid((10,1), (0,0), rowspan = 4, colspan = 1)
-ax2 = plt.subplot2grid((10,1), (5,0), rowspan = 4, colspan = 1)
-
-ax1.plot(df['Close'], linewidth=2)
-ax1.set_title('Bitcoin Close Price')
-
-ax2.set_title('Relative Strength Index')
-ax2.plot(rsi, color='orange', linewidth=1)
-
+plt.plot(new_df['Close'], label="Stock Values", color="black")
+plt.plot(new_df['EMA'], label="EMA", color="red")
+plt.plot(new_df['MFI'], label="MFI", color="blue")
+plt.plot(new_df['RSI'], label="RSI", color="green")
+plt.xlabel("Date")
+plt.ylabel("Value")
+handles, labels = plt.gca().get_legend_handles_labels()
+by_label = dict(zip(labels, handles))
+plt.legend(by_label.values(), by_label.keys())
 plt.show()
+
