@@ -1,4 +1,5 @@
+from RF import RF
 from SVM import SVM
 
-test = SVM('Data/BTC-USD_daily.csv')
+test = RF('Data/ZEC-USD_daily.csv')
 test.plot()

@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from sklearn.model_selection import GridSearchCV
 from Calculations import Calculations
@@ -7,6 +8,13 @@ import matplotlib.pyplot as plt
 
 
 class SVM:
+    # BCH = -11.5596,  LTC = -1.0933
+    # BTC = -0.4567,   OMG = -4.3333
+    # DASH = -19.0565, XMR = -2.3508
+    # EOS = -33.4149,  XRP = 0.5120
+    # ETC = -2.0739,   ZEC = -0.8221
+    # ETH = -1.1381
+
     split = 1447
 
     def __init__(self, filepath):
@@ -65,15 +73,3 @@ class SVM:
         by_label = dict(zip(labels, handles))
         plt.legend(by_label.values(), by_label.keys())
         plt.show()
-
-# BCH = -11.5596
-# BTC = -0.4567
-# DASH = -19.0565
-# EOS = -33.4149
-# ETC = -2.0739
-# ETH = -1.1381
-# LTC = -1.0933
-# OMG = -4.3333
-# XMR = -2.3508
-# XRP = 0.5120
-# ZEC = -0.8221
