@@ -68,3 +68,10 @@ class RF:
 
     def print_score(self):
         print(f'R-squared score: {self.score}')
+
+    def final_dataframe(self):
+        df = pd.DataFrame()
+        df['Close'] = self.y_test
+        df['Predicted'] = self.prediction
+        df.index = self.prediction.index
+        return df

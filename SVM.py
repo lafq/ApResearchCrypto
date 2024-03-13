@@ -73,3 +73,10 @@ class SVM:
         by_label = dict(zip(labels, handles))
         plt.legend(by_label.values(), by_label.keys())
         plt.show()
+
+    def final_dataframe(self):
+        df = pd.DataFrame()
+        df['Close'] = self.y_test
+        df['Predicted'] = self.prediction
+        df.index = self.prediction.index
+        return df
