@@ -13,6 +13,8 @@ class RF:
     # EOS = 0.9566,     XRP = 0.9824
     # ETC = 0.7256,     ZEC = 0.7534
     # ETH = 0.4138
+
+    # Exact index for split date
     split = 1447
 
     def __init__(self, filepath):
@@ -56,6 +58,7 @@ class RF:
         self.prediction = pd.DataFrame(y_prediction)
         self.prediction.index = x_test.index
 
+    # plotting method for debugging
     def plot(self):
         plt.plot(self.y_test, label='Close', color='red')
         plt.plot(self.prediction, label='Predicted', color='blue')
@@ -66,9 +69,11 @@ class RF:
         plt.legend(by_label.values(), by_label.keys())
         plt.show()
 
+    # method for debugging
     def print_score(self):
         print(f'R-squared score: {self.score}')
 
+    # collect data correctly to put into Excel sheet
     def final_dataframe(self):
         df = pd.DataFrame()
         df['Close'] = self.y_test

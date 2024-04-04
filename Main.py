@@ -2,11 +2,13 @@ from RF import RF
 from SVM import SVM
 import pandas as pd
 
+# List of input filepaths
 data_list = ['Data/BCH-USD_daily.csv', 'Data/BTC-USD_daily.csv', 'Data/DASH-USD_daily.csv',
              'Data/EOS-USD_daily.csv', 'Data/ETC-USD_daily.csv', 'Data/ETH-USD_daily.csv',
              'Data/LTC-USD_daily.csv', 'Data/OMG-USD_daily.csv', 'Data/XMR-USD_daily.csv',
              'Data/XRP-USD_daily.csv', 'Data/ZEC-USD_daily.csv']
 
+# List of sheet names for outputs
 final_list = ['BCH-SVM-output', 'BTC-SVM-output', 'DASH-SVM-output',
               'EOS-SVM-output', 'ETC-SVM-output', 'ETH-SVM-output',
               'LTC-SVM-output', 'OMG-SVM-output', 'XMR-SVM-output',
@@ -15,6 +17,8 @@ final_list = ['BCH-SVM-output', 'BTC-SVM-output', 'DASH-SVM-output',
               'EOS-RF-output', 'ETC-RF-output', 'ETH-RF-output',
               'LTC-RF-output', 'OMG-RF-output', 'XMR-RF-output',
               'XRP-RF-output', 'ZEC-RF-output']
+
+# Predict for each input file and output into two sheets based on SVM and RF
 writer = pd.ExcelWriter('output_file.xlsx', engine='xlsxwriter')
 
 for x in range(len(data_list)):

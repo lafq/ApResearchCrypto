@@ -15,6 +15,7 @@ class SVM:
     # ETC = -2.0739,   ZEC = -0.8221
     # ETH = -1.1381
 
+    # Exact index for split date
     split = 1447
 
     def __init__(self, filepath):
@@ -61,9 +62,11 @@ class SVM:
         self.prediction = pd.DataFrame(y_prediction)
         self.prediction.index = x_test.index
 
+    # method for debugging
     def print_score(self):
         print(f'R-squared score: {self.score}')
 
+    # plotting method for debugging
     def plot(self):
         plt.plot(self.y_test, label='Close', color='red')
         plt.plot(self.prediction, label='Predicted', color='blue')
@@ -74,6 +77,7 @@ class SVM:
         plt.legend(by_label.values(), by_label.keys())
         plt.show()
 
+    # collect data correctly into Excel sheet
     def final_dataframe(self):
         df = pd.DataFrame()
         df['Close'] = self.y_test

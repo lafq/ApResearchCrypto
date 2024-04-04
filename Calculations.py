@@ -7,8 +7,6 @@ class Calculations:
     # number of days in preferred time frame
     period = 14
 
-    # TODO slice is not inclusive, so when separating for test use 12/31
-
     def __init__(self, filepath):
         # create new dataframe using given filepath
         self.df = pd.read_csv(filepath)
@@ -97,17 +95,3 @@ class Calculations:
 
         MFI = 100 * (np.array(positive_mf) / (np.array(positive_mf) + np.array(negative_mf)))
         return MFI
-
-
-"""
-    plt.plot(new_df['Close'], label="Stock Values", color="black")
-    plt.plot(new_df['EMA'], label="EMA", color="red")
-    plt.plot(new_df['MFI'], label="MFI", color="blue")
-    plt.plot(new_df['RSI'], label="RSI", color="green")
-    plt.xlabel("Date")
-    plt.ylabel("Value")
-    handles, labels = plt.gca().get_legend_handles_labels()
-    by_label = dict(zip(labels, handles))
-    plt.legend(by_label.values(), by_label.keys())
-    plt.show()
-"""
